@@ -1,15 +1,30 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'location.g.dart';
+
 enum LocationType {
+  @JsonValue('City')
   city,
+  @JsonValue('Region')
   region,
+  @JsonValue('State')
   state,
+  @JsonValue('Province')
   province,
+  @JsonValue('Country')
   country,
+  @JsonValue('Continent')
   continent,
 }
 
+@JsonSerializable()
 class Location {
+  factory Location.fromJson(Map<String, dynamic> json) =>
+      _$LocationFromJson(json);
   final String title;
   final LocationType locationType;
+  @JsonKey(name: 'latt_long')
+  @LatLngConverter()
   final LatLng latLng;
   final int woeid;
 
@@ -25,4 +40,22 @@ class LatLng {
   final double latitude, longitude;
 
   const LatLng({required this.latitude, required this.longitude});
+}
+
+class LatLngConverter implements JsonConverter<LatLng, String> {
+  const LatLngConverter();
+
+  @override
+  String toJson(LatLng latLng) {
+    return '${latLng.latitude},${latLng.longitude}';
+  }
+
+  @override
+  LatLng fromJson(String jsonString) {
+    final parts = jsonString.split(',');
+    return LatLng(
+      latitude: double.tryParse(parts[0]) ?? 0,
+      longitude: double.tryParse(parts[1]) ?? 0,
+    );
+  }
 }
