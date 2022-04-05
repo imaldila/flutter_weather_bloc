@@ -12,7 +12,7 @@ dependencies:
   equatable: ^2.0.3
   flutter_bloc: ^8.0.1
   google_fonts: ^2.1.0
-  hydrated_bloc: ^8.0.0
+  hydrated_bloc: ^9.0.0-dev.1
   json_annotation: ^4.4.0
   path_provider: ^2.0.8
   weather_repository:
